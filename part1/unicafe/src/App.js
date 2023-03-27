@@ -2,21 +2,29 @@ import { useState } from 'react'
 
 const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
 
-const StatisticLine = ({text, value}) => <p>{text} {value} {text==='positive' && <span>%</span>}</p>
+const StatisticLine = ({text, value}) => {
+return(
+    <tr>
+      <td>{text}</td>
+      <td>{value} {text==='positive' && <span>%</span>}</td>
+    </tr>)
+}
 
 const Statistics = ({good, neutral, bad, total}) => {
   return (<>
     {total === 0 
     ? <p>No feeback given</p> 
     :
-      <>
-        <StatisticLine text="good" value={good}/>
-        <StatisticLine text="neutral" value={neutral}/>
-        <StatisticLine text="bad" value={bad}/>
-        <StatisticLine text="all" value={total}/>
-        <StatisticLine text="average" value={total / 3}/>
-        <StatisticLine text="positive" value={good/total * 100}/>
-      </>
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={good}/>
+          <StatisticLine text="neutral" value={neutral}/>
+          <StatisticLine text="bad" value={bad}/>
+          <StatisticLine text="all" value={total}/>
+          <StatisticLine text="average" value={total / 3}/>
+          <StatisticLine text="positive" value={good/total * 100}/>
+        </tbody>
+      </table>
     } 
   </>)
 }
