@@ -8,9 +8,14 @@ const Content = ({parts}) => {
         name={part.name} 
         exercises={part.exercises}
     />)
+
+    const total = parts.reduce((prevVal, currentVal) => {
+       return prevVal + currentVal.exercises
+    }, 0)
     return (
         <div>
             {allParts}
+            <p>total of {total} exercises</p>
         </div>
     );
 };
