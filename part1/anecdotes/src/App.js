@@ -24,6 +24,10 @@ const App = () => {
     7: 0
   })
 
+  const pointsArr = Object.values(points)
+  const maxPoints = Math.max(...pointsArr)
+  const popularAnecdote = Object.keys(points).find(key => points[key] === maxPoints)
+
   const changeAnecdote = () => {
     const random = Math.floor(Math.random() * anecdotes.length)
     setSelected(random)
@@ -38,10 +42,13 @@ const App = () => {
   console.log(points)
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <p>{anecdotes[selected]}</p>
       <p>has {points[selected]} votes</p>
       <button onClick={changePoints}>vote</button>
       <button onClick={changeAnecdote}>next anecdote</button>
+      <h2>Anecdote with the most votes</h2>
+      <p>{anecdotes[popularAnecdote]}</p>
     </div>
   )
 }
