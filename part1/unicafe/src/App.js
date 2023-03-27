@@ -4,12 +4,18 @@ const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</bu
 
 const Statistics = ({good, neutral, bad, total}) => {
   return (<>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average {total / 3}</p>
-      {good > 0 ? <p>positive {good/total * 100}%</p> : <p>positive 0%</p>}
+    {total === 0 
+    ? <p>No feeback given</p> 
+    :
+      <>
+        <p>good {good}</p>
+        <p>neutral {neutral}</p>
+        <p>bad {bad}</p>
+        <p>all {total}</p>
+        <p>average {total / 3}</p>
+        {good > 0 ? <p>positive {good/total * 100}%</p> : <p>positive 0%</p>}
+      </>
+    } 
   </>)
 }
 
