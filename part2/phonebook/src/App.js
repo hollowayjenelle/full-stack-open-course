@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
   const [filteredPerson, setFilteredPerson] = useState([])
+  const [errorMsg, setErrorMsg] = useState()
   const [fulfilledMsg, setFulFilledMsg] = useState()
   const allPersons = persons.map(person => <div className='person-entry'><p key={person.id}>{person.name} {person.number} </p><button onClick={() => deleteEntry(person.id, person.name)}>delete</button></div>)
   const filteredPersons = filteredPerson.map(person => <p key={person.id}>{person.name} {person.number}</p>)
@@ -33,6 +34,9 @@ const App = () => {
           setTimeout(() => {
             setFulFilledMsg(null)
           }, 5000)
+        })
+        .catch(error => {
+          setErrorMsg(`${newName} has been removed. It may have been removed in another browser`)
         })
       }
     }else{
@@ -61,6 +65,9 @@ const App = () => {
             setFulFilledMsg(null)
           }, 5000)
       })
+      .catch(error => {
+        setErrorMsg(`${name} has been removed already`)
+      })
       
     }
   }
@@ -87,6 +94,9 @@ const App = () => {
     <div>
       {fulfilledMsg && <div className='success-msg'>
         {fulfilledMsg}
+      </div>}
+      {errorMsg && <div className='error-msg'>
+        {errorMsg}
       </div>}
       <h2>Phonebook</h2>
       <Filter searchName={searchName} handleSearch={handleSearch} filterPhoneBook={filterPhoneBook}/>
