@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personsServices from './services/persons'
+import './App.css'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -10,7 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
   const [filteredPerson, setFilteredPerson] = useState([])
-  const allPersons = persons.map(person => <p key={person.id}>{person.name} {person.number}</p>)
+  const allPersons = persons.map(person => <div className='person-entry'><p key={person.id}>{person.name} {person.number} </p><button onClick={() => deleteEntry(person.id, person.name)}>delete</button></div>)
   const filteredPersons = filteredPerson.map(person => <p key={person.id}>{person.name} {person.number}</p>)
 
 
@@ -32,6 +33,17 @@ const App = () => {
     }
     setNewName('')
     setNewNumber('')
+  }
+
+  const deleteEntry = (id, name) => {
+    if(window.confirm(`Do you really want to delete ${name}`)){
+      personsServices.deletePerson(id)
+      .then(() => {
+        alert(`${name} has been removed from the phonebook`) 
+        setPersons(persons.filter(person => person.id !== id))
+      })
+      
+    }
   }
 
   const handleNameChange = (event) => {
