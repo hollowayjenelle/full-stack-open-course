@@ -17,18 +17,21 @@ const App = () => {
   useEffect(() => {
     axios.get('http://localhost:3001/persons')
     .then(response => setPersons(response.data))
-  })
+  }, [])
   const addPerson = (event) =>{
     event.preventDefault()
     const found = persons.find(person => person.name === newName)
     if (found){
       alert(`${newName} is already added to the phonebook`)
     }else{
-      const newId = persons[persons.length - 1].id + 1
-      const newPerson = {name : newName, number: newNumber, id: newId}
-      setPersons(persons.concat(newPerson))
+      const newPerson = {name : newName, number: newNumber}
+      axios.post('http://localhost:3001/persons', newPerson)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+      })
     }
     setNewName('')
+    setNewNumber('')
   }
 
   const handleNameChange = (event) => {
