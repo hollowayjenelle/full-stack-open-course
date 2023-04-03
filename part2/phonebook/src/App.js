@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
   const [filteredPerson, setFilteredPerson] = useState([])
+  const [fulfilledMsg, setFulFilledMsg] = useState()
   const allPersons = persons.map(person => <div className='person-entry'><p key={person.id}>{person.name} {person.number} </p><button onClick={() => deleteEntry(person.id, person.name)}>delete</button></div>)
   const filteredPersons = filteredPerson.map(person => <p key={person.id}>{person.name} {person.number}</p>)
 
@@ -28,6 +29,10 @@ const App = () => {
         personsServices.update(found.id, changedPerson)
         .then(updatedData => {
           setPersons(persons.map(person => person.id !== found.id ? person : changedPerson))
+          setFulFilledMsg(`${newName} updated`)
+          setTimeout(() => {
+            setFulFilledMsg(null)
+          }, 5000)
         })
       }
     }else{
@@ -35,6 +40,10 @@ const App = () => {
       personsServices.create(newPerson)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
+        setFulFilledMsg(`${newName} added`)
+        setTimeout(() => {
+            setFulFilledMsg(null)
+          }, 5000)
       })
     }
     setNewName('')
@@ -47,6 +56,10 @@ const App = () => {
       .then(() => {
         alert(`${name} has been removed from the phonebook`) 
         setPersons(persons.filter(person => person.id !== id))
+        setFulFilledMsg(`${name} has been removed`)
+          setTimeout(() => {
+            setFulFilledMsg(null)
+          }, 5000)
       })
       
     }
@@ -72,6 +85,9 @@ const App = () => {
 
   return (
     <div>
+      {fulfilledMsg && <div className='success-msg'>
+        {fulfilledMsg}
+      </div>}
       <h2>Phonebook</h2>
       <Filter searchName={searchName} handleSearch={handleSearch} filterPhoneBook={filterPhoneBook}/>
       <h2>add a new</h2>
